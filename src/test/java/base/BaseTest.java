@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import utils.App;
 import utils.Device;
 import utils.Driver;
@@ -23,8 +25,10 @@ public abstract class BaseTest {
 
 
     @BeforeTest
-    public void beforeTest() {
-        driver = Driver.getDriver(Device.SAMSUNG_A33, App.APIDEMO);
+    @Parameters({"device", "app"})
+    public void beforeTest(@Optional("SAMSUNG_A33") String device, @Optional("APIDEMO") String app) {
+
+        driver = Driver.getDriver(Device.valueOf(device), App.valueOf(app));
         wait = new WebDriverWait(driver, 30);
     }
 
@@ -84,6 +88,26 @@ public abstract class BaseTest {
                 .perform();
     }
 
+    public void swipeH(double start, double end) {
+        int width = driver.manage().window().getSize().getWidth();
+        int height = driver.manage().window().getSize().getHeight();
+
+        if (start < .1) start = .1;
+        if (start > .9) start = .9;
+
+        if (end < .1) end = .1;
+        if (end > .9) end = .9;
+
+        int startPoint = (int) (width * start);
+        int endPoint = (int) (width * end);
+
+        new TouchAction<>(driver)
+                .press(PointOption.point(startPoint, height/2))
+                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
+                .moveTo(PointOption.point( endPoint, height/2))
+                .release()
+                .perform();
+    }
 
     public void swipeUntilVisible(String text, boolean down) {
         By locator = getXpathWithTextAttr(text);
