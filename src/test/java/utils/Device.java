@@ -6,7 +6,7 @@ public enum Device {
             "12",
             "Galaxy A33",
             "Android"),
-    PIXEL_XL("",
+    EMULATOR1("",
             "",
             "",
             "")
