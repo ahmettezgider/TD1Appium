@@ -27,7 +27,7 @@ public abstract class BaseSteps {
 
     public void openApp(Device device, App app) {
         driver = Driver.getDriver(device, app);
-        wait = new WebDriverWait(driver, 30);
+        wait = new WebDriverWait(driver, 20);
     }
 
 
@@ -110,10 +110,12 @@ public abstract class BaseSteps {
     public void swipeUntilVisible(By locator, boolean down) {
 
         while (true) {
+            System.out.println("locator = " + locator);
             try {
                 if (driver.findElement(locator).isDisplayed())
                     break;
             } catch (Exception e) {
+                //System.out.println("e.getMessage() = " + e.getMessage());
                 if (down)
                     swipeV(.6, .5);
                 else

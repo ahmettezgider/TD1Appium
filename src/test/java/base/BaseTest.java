@@ -46,6 +46,7 @@ public abstract class BaseTest {
 
 
     public void click(By locator) {
+        swipeUntilVisible(locator, true);
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 

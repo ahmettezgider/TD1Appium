@@ -10,9 +10,6 @@ public class MyStepdefs extends BaseSteps {
     @Given("^user opens (APIDEMO|CALCULATOR) on (SAMSUNG_A33|EMULATOR1)$")
     public void userOpensAPIDEMOSOnTheSAMSUNG(String app, String device) {
         openApp(Device.valueOf(device), App.valueOf(app));
-        click("Weiter");
-        click("OK");
-        click("OK");
     }
 
     @When("user clicks {string}")
@@ -22,6 +19,11 @@ public class MyStepdefs extends BaseSteps {
 
     @Then("{string} should be visible")
     public void shouldBeVisible(String text) {
-        shouldBeVisible(text);
+        waitForVisibilityOf(text);
+    }
+
+    @And("swipe until the text {string} is visible")
+    public void swipeUntilTheTextIsVisible(String text) {
+        swipeUntilVisible(text, true);
     }
 }
