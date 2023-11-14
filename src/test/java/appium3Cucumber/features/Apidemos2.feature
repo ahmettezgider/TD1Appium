@@ -4,8 +4,7 @@ Feature: Api Demos Scenarios
 
   Scenario: Popup menu assertion
 
-    Given user opens APIDEMO on SAMSUNG_A33
-    When  user clicks "API Demos"
+    Given user clicks "API Demos"
     And   user clicks "Views"
     And   swipe until the text "Popup Menu" is visible
     And   user clicks "Popup Menu"

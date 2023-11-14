@@ -8,10 +8,6 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
 import utils.App;
 import utils.Device;
 import utils.Driver;
@@ -23,7 +19,10 @@ public abstract class BaseSteps {
     protected AppiumDriver<MobileElement> driver;
     protected WebDriverWait wait;
 
-
+    public BaseSteps(){
+        driver = Driver.getDriver();
+        wait = new WebDriverWait(driver, 20);
+    }
 
     public void openApp(Device device, App app) {
         driver = Driver.getDriver(device, app);
@@ -48,7 +47,7 @@ public abstract class BaseSteps {
 
 
     public By getXpathWithTextAttr(String text) {
-        return By.xpath("//*[@text='" + text + "'] | //*[@*[contains(., '" + text + "')]]");
+        return By.xpath("//*[contains(@text,'" + text + "')] | //*[@*[contains(., '" + text + "')]]");
     }
 
     public void waitForVisibilityOf(String text) {
@@ -57,7 +56,11 @@ public abstract class BaseSteps {
     }
 
     public void waitForVisibilityOf(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        wait.until(driver -> {
+            if (driver.findElements(locator).size()>0) return true;
+            return false;
+        });
     }
 
     public void swipeV(double start, double end) {
@@ -110,16 +113,14 @@ public abstract class BaseSteps {
     public void swipeUntilVisible(By locator, boolean down) {
 
         while (true) {
-            System.out.println("locator = " + locator);
             try {
                 if (driver.findElement(locator).isDisplayed())
                     break;
             } catch (Exception e) {
-                //System.out.println("e.getMessage() = " + e.getMessage());
                 if (down)
-                    swipeV(.6, .5);
+                    swipeV(.7, .4);
                 else
-                    swipeV(.4, .5);
+                    swipeV(.4, .7);
             }
         }
     }

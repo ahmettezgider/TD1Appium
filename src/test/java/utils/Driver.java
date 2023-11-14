@@ -17,6 +17,13 @@ public class Driver {
     private static AppiumDriverLocalService service;
 
 
+    public static AppiumDriver<MobileElement> getDriver()  {
+        if (driver == null){
+            throw new RuntimeException("Deriver is null");
+        }
+        return driver;
+    }
+
     public static AppiumDriver<MobileElement> getDriver(Device device, App app)  {
         if (driver == null){
             startAppium();
@@ -25,8 +32,6 @@ public class Driver {
         }
         return driver;
     }
-
-
 
     public static void startAppium(){
         service = new AppiumServiceBuilder()

@@ -7,9 +7,16 @@ import utils.Device;
 
 public class MyStepdefs extends BaseSteps {
 
+    public MyStepdefs(){
+        System.out.println("Step defs");
+    }
+
     @Given("^user opens (APIDEMO|CALCULATOR) on (SAMSUNG_A33|EMULATOR1)$")
     public void userOpensAPIDEMOSOnTheSAMSUNG(String app, String device) {
         openApp(Device.valueOf(device), App.valueOf(app));
+        click("Weiter");
+        click("OK");
+        click("OK");
     }
 
     @When("user clicks {string}")
